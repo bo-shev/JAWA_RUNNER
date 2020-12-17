@@ -64,6 +64,7 @@ class Car
             this.y = -100
         }
     }
+
     
 }
 
@@ -87,27 +88,44 @@ var transorts =
             new Car("img/smallDnepr1.png", motoX, motoY, 0)
         ];
 
-function playerGo()
-{
-    if (wayH == 1)
+        function left()
     {
-        if(transorts[0].y > 10)
-            {transorts[0].y-= motoSpeed;} 
+        if(transorts[0].x>100)
+        {transorts[0].x -= motoSpeed;}        
     }
-    else if (wayH == 2)
+    function down()
     {
         if(transorts[0].y < 780)
            { transorts[0].y+= motoSpeed;} 
     }
+    function right()
+    {   
+        if(transorts[0].x<500)
+        {transorts[0].x += motoSpeed;}
+    }
+    function up()
+    {
+        if(transorts[0].y > 10)
+        {transorts[0].y-= motoSpeed;}   
+    }
+
+function playerGo()
+{
+    if (wayH == 1)
+    {
+        up();
+    }
+    else if (wayH == 2)
+    {
+        down();
+    }
     if (wayW == 1)
     {
-        if(transorts[0].x>100)
-        {transorts[0].x -= motoSpeed;}
+       left();
     }
     else if (wayW == 2)
     {
-        if(transorts[0].x<500)
-        {transorts[0].x += motoSpeed;}
+       right();
     }
 }
 

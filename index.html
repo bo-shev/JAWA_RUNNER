@@ -9,5 +9,12 @@
     
 <canvas id="canvas" width="700" height="900" style="position: absolute; top: 0; left:0 ; "></canvas> <!-- Тут буде те що виводить Джс, себто гра -->
 <script src="game.js"></script>
+<div style="position: absolute; top: 900px; left: 200px;">
+<input value="left" onmousedown="wayW=1" onmouseup="wayW = 0" type="button">
+<input value="right" onmousedown="wayW=2" onmouseup="wayW = 0" type="button">
+<input value="up" onmousedown="wayH=1" onmouseup="wayH = 0" style="height: 50px; width: 50px;">
+<input value="down" onmousedown="wayH=2" onmouseup="wayH = 0" type="button">
+<input value="Add car" onclick="addCar()" type="button">
+</div>
 </body>
 </html>
