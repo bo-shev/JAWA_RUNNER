@@ -1,15 +1,15 @@
 let cvs = document.getElementById("canvas");
 let ctx = cvs.getContext("2d");
 
-var moto = new Image(); 
+var moto = "img/smallDnepr1.png"; 
 var  fon = new Image();
 
-moto.src = "img/smallDnepr1.png"; 
+//moto.src =  "img/smallSatsuma1.png";//"img/smallDnepr1.png"; 
 //fon.src = "img/road.png";
 fon.src = "img/betterRoad.jpg";
 
 var motoX = 450, motoY = 200;
-var motoSpeed = 5, roadSpeed = 7;
+var motoSpeed = 7, roadSpeed = 6;
 var amountCar = 0;
 
 var wayH = 0 , wayW = 0; // напрямок 
@@ -26,10 +26,27 @@ function RandomInteger(min, max)
 
 function addCar()
 {
-    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(150, 170), -100, RandomInteger(1,5)))
-    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(240, 280), -300, RandomInteger(1,5)))
-    transorts.push(new Car("img/smallSatsuma1.png", RandomInteger(340, 370), -100, RandomInteger(1,5)))
-    transorts.push(new Car("img/smallSatsuma1.png", RandomInteger(430, 450), -100, RandomInteger(1,5)))
+    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(150, 170), -100, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(240, 280), -300, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car(changeCar(1), RandomInteger(340, 370), -100, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car("img/smallSatsuma1.png", RandomInteger(430, 450), -100, RandomInteger(1,roadSpeed-2)))
+}
+
+function changeCar(strip)
+{
+    var temp = RandomInteger(1,2);
+
+    if (strip == 1)
+    {
+        switch (temp)
+        {
+            case 1: return "img/smallDnepr1.png";break;
+            case 2: return "img/smallSatsuma1.png"; break;
+                
+                   
+        }
+    }
+    
 }
 
 class Car
@@ -61,7 +78,16 @@ class Car
     {
         if (this.y > 900)
         {
-            this.y = -100
+            this.y = RandomInteger(-750, -150);
+            this.carSpeed = RandomInteger(1, roadSpeed-2);
+            
+            if(this.x > 340)
+            {
+                this.image = new Image();
+                this.image.src = changeCar(1);
+            }
+            else {}
+
         }
     }
 
@@ -73,9 +99,9 @@ function colision(i)
     var roadAccident = false;
 
    // alert(i);
-    if(transorts[i].y < (transorts[0].y + transorts[0].image.height ) && transorts[i].y + transorts[i].image.height > transorts[0].y +30 )
+    if(transorts[i].y < (transorts[0].y + transorts[0].image.height -20 ) && transorts[i].y + transorts[i].image.height -20> transorts[0].y  )
     {
-      if(transorts[i].x < (transorts[0].x + transorts[0].image.width ) && transorts[i].x + transorts[i].image.width  > transorts[0].x)
+      if(transorts[i].x < (transorts[0].x + transorts[0].image.width ) && transorts[i].x + transorts[i].image.width  - 15> transorts[0].x)
         {
             roadAccident = true;            
         }
@@ -85,7 +111,7 @@ function colision(i)
 
 var transorts = 
         [
-            new Car("img/smallDnepr1.png", motoX, motoY, 0)
+            new Car(moto, motoX, motoY, 0)//"img/smallDnepr1.png"
         ];
 
         function left()
@@ -128,7 +154,14 @@ function playerGo()
        right();
     }
 }
-
+var  tsImg = new Image();
+function prewievDraw()
+{
+    ctx.drawImage(fon, 0, fonPositionY+150);
+    
+    tsImg.src = moto;
+    ctx.drawImage(tsImg, motoX, motoY);
+}
 
 function draw()
         {
@@ -183,7 +216,7 @@ function move(e)
         wayH = 2;        
             break;
         case 32:   // если нажата клавиша вверх
-        addCar();
+        
         //transorts.push(new Car("img/smallSatsuma.png", RandomInteger(160, 470), -100, RandomInteger(1,5)))
             break;
        
@@ -208,10 +241,18 @@ function donTmove(e)
             break;
     }
 }
+prewievDraw();
 
 addEventListener("keydown", move);
 
 addEventListener("keyup", donTmove);
 
+
+function start()
+{
 let interval = setInterval(draw, 20);
+addCar();
+}
+
+
 //requestAnimationFrame(draw);
