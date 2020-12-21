@@ -6,20 +6,28 @@
     <title>Document</title>
 </head>
 <body onload="prewievDraw();">
-    
+    <div style="position: absolute; top: 10px; left: 800px;">
+   
+    <p>Пробіг цього заїзду: <abbr id="score"></abbr> км. <abbr id="mScore"></abbr> м.</p>
+</div>
+
 <canvas id="canvas"  width="700" height="900" style="position: absolute; top: 0; left:0 ; "></canvas> <!-- Тут буде те що виводить Джс, себто гра -->
 <script src="game.js"></script>
-<div style="position: absolute;display: none;  top: 900px; left: 200px;">
-<input value="left" onmousedown="wayW=1" onmouseup="wayW = 0" type="button">
-<input value="right" onmousedown="wayW=2" onmouseup="wayW = 0" type="button">
-<input value="up" onmousedown="wayH=1" onmouseup="wayH = 0" style="height: 50px; width: 50px;">
-<input value="down" onmousedown="wayH=2" onmouseup="wayH = 0" type="button">
-<input value="Add car" onclick="addCar()" type="button">
+
+<div style="position: absolute; display: none ;top: 900px; left: 200px;">
+    <input value="left" onmousedown="wayW=1" onmouseup="wayW = 0" type="button">
+    <input value="right" onmousedown="wayW=2" onmouseup="wayW = 0" type="button">
+    <input value="up" onmousedown="wayH=1" onmouseup="wayH = 0" style="height: 50px; width: 50px;">
+    <input value="down" onmousedown="wayH=2" onmouseup="wayH = 0" type="button">
+    <input value="Add car" onclick="addCar()" type="button">
 </div>
+
 <div style="position: absolute; top: 200px; left: 800px;">
-<input value="Start" onclick="start()" type="button">
-<input value="Satsuma" onclick="moto = 'img/smallSatsuma1.png'; prewievDraw();" type="button">
-<input value="dnepr" onclick="moto = 'img/smallDnepr1.png'; prewievDraw();" type="button">
+    <input value="Start" onclick="start()" type="button">
+    <input value="Jawa" onclick="moto = 'img/jawa1.png'; prewievDraw();" type="button">
+    <input value="dnepr" onclick="moto = 'img/smallDnepr1.png'; prewievDraw();" type="button">
+    <input value="Satsuma" onclick="moto = 'img/smallSatsuma1pl.png'; prewievDraw();" type="button">
+    <input value="Уаз" onclick="moto = 'img/yazPL.png'; prewievDraw();" type="button">
 
 </div>
 

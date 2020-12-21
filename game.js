@@ -1,5 +1,8 @@
 let cvs = document.getElementById("canvas");
 let ctx = cvs.getContext("2d");
+var flag =false;
+var score = 0, totalScore = 0;
+var metr =0, bonus = 1;
 
 var moto = "img/smallDnepr1.png"; 
 var  fon = new Image();
@@ -7,6 +10,11 @@ var  fon = new Image();
 //moto.src =  "img/smallSatsuma1.png";//"img/smallDnepr1.png"; 
 //fon.src = "img/road.png";
 fon.src = "img/betterRoad.jpg";
+
+curentKm = document.getElementById("score");
+curentM = document.getElementById("mScore");
+//odometr=document.getElementById("odometr");
+curentKm.innerHTML=score;
 
 var motoX = 450, motoY = 200;
 var motoSpeed = 7, roadSpeed = 6;
@@ -16,25 +24,30 @@ var wayH = 0 , wayW = 0; // напрямок
 
 //var plusX = 1; var plusY = 1;
 
-var fonPositionY = -1500;
+var fonPositionY = -1350;
 
+
+var transorts ;
+
+
+       
 function RandomInteger(min, max) 
 {
     let rand = min - 0.5 + Math.random() * (max - min + 1);
     return Math.round(rand);
 }
 
-function addCar()
+function addCar()  
 {
-    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(150, 170), -100, RandomInteger(1,roadSpeed-2)))
-    transorts.push(new Car("img/smallSatsuma2.png", RandomInteger(240, 280), -300, RandomInteger(1,roadSpeed-2)))
-    transorts.push(new Car(changeCar(1), RandomInteger(340, 370), -100, RandomInteger(1,roadSpeed-2)))
-    transorts.push(new Car("img/smallSatsuma1.png", RandomInteger(430, 450), -100, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car(changeCar(2), RandomInteger(150, 170), -100, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car(changeCar(2), RandomInteger(245, 280), -300, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car(changeCar(1), RandomInteger(340, 365), -250, RandomInteger(1,roadSpeed-2)))
+    transorts.push(new Car(changeCar(1), RandomInteger(440, 450), -700, RandomInteger(1,roadSpeed-2)))
 }
 
 function changeCar(strip)
 {
-    var temp = RandomInteger(1,2);
+    var temp = RandomInteger(1,4);
 
     if (strip == 1)
     {
@@ -42,9 +55,20 @@ function changeCar(strip)
         {
             case 1: return "img/smallDnepr1.png";break;
             case 2: return "img/smallSatsuma1.png"; break;
-                
-                   
+            case 3: return "img/yaz1.png"; break; 
+            case 4: return "img/moto1.png"; break; 
         }
+    }
+    else
+    {
+        switch (temp)
+        {
+            case 1: return "img/smallDnepr2.png";break;
+            case 2: return "img/smallSatsuma2.png"; break;
+            case 3: return "img/yaz2.png"; break;                    
+            case 4: return "img/moto2.png"; break;
+        }
+
     }
     
 }
@@ -86,7 +110,11 @@ class Car
                 this.image = new Image();
                 this.image.src = changeCar(1);
             }
-            else {}
+            else 
+            {
+                this.image = new Image();
+                this.image.src = changeCar(2);
+            }
 
         }
     }
@@ -109,10 +137,7 @@ function colision(i)
     return roadAccident;
 }
 
-var transorts = 
-        [
-            new Car(moto, motoX, motoY, 0)//"img/smallDnepr1.png"
-        ];
+
 
         function left()
     {
@@ -156,11 +181,12 @@ function playerGo()
 }
 var  tsImg = new Image();
 function prewievDraw()
-{
-    ctx.drawImage(fon, 0, fonPositionY+150);
-    
+{   
+    ctx.drawImage(fon, 0, fonPositionY);
+   
     tsImg.src = moto;
     ctx.drawImage(tsImg, motoX, motoY);
+   
 }
 
 function draw()
@@ -179,23 +205,47 @@ function draw()
 
                 if (i != 0)
                 {
-                    if (colision(i) == true)
-                    {
-                        alert("йой най буде");
+                    if (colision(i) == true && flag == true)
+                    {                        
+                        
+                        alert("Ви проїхали: "+ score +" кілометрів");  
+                        
+                        location.reload();
+                        flag = false;
+                        break;
                     }
                 }
             }
 
             playerGo();
+
+            if (transorts[0].x < 270)
+            {
+                bonus = 2;
+            }
+            else {bonus = 1;}
         
          fonPositionY+= roadSpeed;
-         
-        if(fonPositionY > 0)
-        {fonPositionY = -900;}
-         // x += plusX; ;
-         
-         //requestAnimationFrame(draw);
+            
+            if(fonPositionY > 0)
+            {fonPositionY = -900;}
+            
+            if(metr > 1000)
+            {
+                metr = 0;
+                score++;
+                //odometr=document.getElementById("odometr");
+
+                //odometr.innerHTML=score + totalScore;
+                curentKm.innerHTML=score;
+                motoSpeed++;
+                 roadSpeed++;
+                
+
+            } metr += bonus; 
+            curentM.innerHTML=metr;
         }
+    
         
 
 function move(e)
@@ -216,7 +266,7 @@ function move(e)
         wayH = 2;        
             break;
         case 32:   // если нажата клавиша вверх
-        
+        start();
         //transorts.push(new Car("img/smallSatsuma.png", RandomInteger(160, 470), -100, RandomInteger(1,5)))
             break;
        
@@ -250,8 +300,15 @@ addEventListener("keyup", donTmove);
 
 function start()
 {
+    if (flag != true)
+    {
+    transorts = [            
+        new Car(moto, motoX, motoY, 0)//"img/smallDnepr1.png"
+    ];
 let interval = setInterval(draw, 20);
 addCar();
+flag = true;
+    }
 }
 
 
